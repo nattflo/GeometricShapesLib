@@ -1,11 +1,4 @@
 ﻿using Figures.Interfaces;
-using Microsoft.VisualBasic;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.SymbolStore;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Figures.Figures
 {
@@ -14,6 +7,13 @@ namespace Figures.Figures
         public double SideA { get; private set; }
         public double SideB { get; private set; }
         public double SideC { get; private set; }
+
+        public bool IsTriangleRight
+        {
+            get { return _isTriangleRight.Value; }
+        }
+
+        private readonly Lazy<bool> _isTriangleRight;
 
 
         public Triangle(double sideA, double sideB, double sideC)
@@ -28,8 +28,10 @@ namespace Figures.Figures
             SideA = sideA;
             SideB = sideB;
             SideC = sideC;
+
+            _isTriangleRight = new Lazy<bool>(GetIsRightTriangle);
         }
-        public bool IsTriangleRight()
+        public bool GetIsRightTriangle()
         {
             var longestSide = Math.Max(SideA, Math.Max(SideB, SideC));
             return Math.Pow(longestSide, 2) == Math.Pow(SideA, 2) + Math.Pow(SideB, 2) + Math.Pow(SideC, 2) - Math.Pow(longestSide, 2);
