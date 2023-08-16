@@ -5,11 +5,13 @@ namespace Figures.Tests
     public class CircleTest
     {
         [Theory]
-        [InlineData(-1)]
-        [InlineData(0)]
-        public void CircleCtor_BadData_ThrowsArgumentException(double radius)
+        [InlineData(-1, "Radius cannot be equal to or less than zero")]
+        [InlineData(0, "Radius cannot be equal to or less than zero")]
+        public void CircleCtor_RadiusIsZeroOrLess_ThrowsArgumentException(double radius, string expectedExceptionMessage)
         {
-            Assert.Throws<ArgumentException>(() => new Circle(radius));
+            var exception = Assert.Throws<ArgumentException>(() => new Circle(radius));
+
+            Assert.Equal(expectedExceptionMessage, exception.Message);
         }
 
 

@@ -4,14 +4,31 @@ namespace Figures.Tests
 {
     public class TriangleTest
     {
+
         [Theory]
-        [InlineData(-1, 1, 1)]
-        [InlineData(1, -1, 1)]
-        [InlineData(1, 1, -1)]
-        [InlineData(0, 0, 0)]
-        public void TriangleCtor_BadData_ThrowsArgumentException(double a, double b, double c)
+        [InlineData(0, 0, 0, "Sides of the triangle cannot be equal to or less than zero")]
+        [InlineData(0, 0, 1, "Sides of the triangle cannot be equal to or less than zero")]
+        [InlineData(0, 1, 0, "Sides of the triangle cannot be equal to or less than zero")]
+        [InlineData(0, 1, 1, "Sides of the triangle cannot be equal to or less than zero")]
+        [InlineData(1, 0, 0, "Sides of the triangle cannot be equal to or less than zero")]
+        [InlineData(1, 0, 1, "Sides of the triangle cannot be equal to or less than zero")]
+        [InlineData(1, 1, 0, "Sides of the triangle cannot be equal to or less than zero")]
+        public void TriangleCtor_OneOrMoreSidesAreZero_ThrowsArgumentException(double a, double b, double c, string expectedExceptionMessage)
         {
-            Assert.Throws<ArgumentException>(() => new Triangle(a, b, c));
+            var exception = Assert.Throws<ArgumentException>(() => new Triangle(a, b, c));
+
+            Assert.Equal(exception.Message, expectedExceptionMessage);
+        }
+
+        [Theory]
+        [InlineData(1, 1, 5, "The longest side of the triangle must be less than the sum of the other sides")]
+        [InlineData(1, 5, 1, "The longest side of the triangle must be less than the sum of the other sides")]
+        [InlineData(5, 1, 1, "The longest side of the triangle must be less than the sum of the other sides")]
+        public void TriangleCtor_LongestSideLessIsGreaterThanTheSumOfOtherTwo_ThrowsArgumentException(double a, double b, double c, string expectedExceptionMessage)
+        {
+            var exception = Assert.Throws<ArgumentException>(() => new Triangle(a, b, c));
+
+            Assert.Equal(expectedExceptionMessage, exception.Message);
         }
 
         [Fact]
@@ -43,12 +60,6 @@ namespace Figures.Tests
 
             Assert.NotNull(square);
             Assert.Equal(expected, square);
-        }
-
-        [Fact]
-        public void TriangleCtor_1and1and4_ThrowsArgumentException()
-        {
-            Assert.Throws<ArgumentException>(() => new Triangle(1, 1, 4));
         }
 
         [Fact]

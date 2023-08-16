@@ -1,22 +1,20 @@
 ﻿using Figures.Interfaces;
 
-namespace Figures.Figures
+namespace Figures.Figures;
+
+public class Circle: IFigure
 {
-    public class Circle: IFigure
+    public double Radius { get; private set; }
+    public Circle(double radius)
     {
-        public double Radius { get; private set; }
-        public Circle(double radius)
-        {
-            if (radius <= 0)
-                throw new ArgumentException("Radius cannot be equal to or less than zero");
+        if (radius <= 0)
+            throw new ArgumentException("Radius cannot be equal to or less than zero");
 
+        Radius = radius;
+    }
 
-            Radius = radius;
-        }
-
-        public double GetSquare()
-        {
-            return Math.PI * Math.Pow(Radius, 2);
-        }
+    public double GetSquare()
+    {
+        return Math.PI * Math.Pow(Radius, 2);
     }
 }
