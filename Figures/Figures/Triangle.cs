@@ -1,6 +1,7 @@
-﻿using Figures.Interfaces;
+﻿using Figures.AreaCalculators;
+using Figures.Interfaces;
 
-namespace Figures.Figures;
+namespace Figures;
 
 public sealed class Triangle : IFigure
 {
@@ -9,10 +10,11 @@ public sealed class Triangle : IFigure
     public readonly double SideC;
     public readonly bool IsTriangleRight;
 
-    private readonly Lazy<double> _area;
+    private readonly IAreaCalculator<Triangle> _calculator;
 
 
-    public Triangle(double sideA, double sideB, double sideC)
+    //Конструктор для фабрики
+    public Triangle(IAreaCalculator<Triangle> calculator, double sideA, double sideB, double sideC)
     {
         if (!IsValidTriangle(sideA, sideB, sideC))
             throw new ArgumentException("Invalid triangle sides");
@@ -21,9 +23,40 @@ public sealed class Triangle : IFigure
         SideB = sideB;
         SideC = sideC;
 
-        IsTriangleRight = CalculateIsRightTriangle();
+        _calculator = calculator;
 
-        _area = new Lazy<double>(GetArea());
+        IsTriangleRight = CalculateIsRightTriangle();
+    }
+
+    //Конструктор для простого использования класса
+    public Triangle(double sideA, double sideB, double sideC) : this(new TriangleAreaCalculator(), sideA, sideB, sideC) { }
+
+    public double CalculateArea() => _calculator.GetArea(this);
+
+    //Нужен, чтобы убрать unbox при обращении к переопределённому методу Equals
+    public bool Equals(Triangle? other)
+    {
+        if (other == null) return false;
+
+        var otherHashSet = new HashSet<double>() { other.SideA, other.SideB, other.SideC };
+        var thisHashSet = new HashSet<double>() { SideA, SideB, SideC };
+
+        return otherHashSet.SetEquals(thisHashSet);
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (obj == null || obj is Triangle)
+            return false;
+
+        return Equals(obj as Triangle);
+    }
+
+    //Нужен, чтобы использовать в Dictionary в качестве ключа
+    public override int GetHashCode()
+    {
+        var hashSet = new HashSet<double>() { SideA, SideB, SideC };
+        return hashSet.GetHashCode();
     }
 
     private static bool IsValidTriangle(double sideA, double sideB, double sideC)
@@ -33,17 +66,10 @@ public sealed class Triangle : IFigure
                sideA + sideC > sideB &&
                sideB + sideC > sideA;
     }
-    private double GetArea()
-    {
-        var halfPerimeter = (SideA + SideB + SideC) / 2;
-        return Math.Sqrt(halfPerimeter * (halfPerimeter - SideA) * (halfPerimeter - SideB) * (halfPerimeter - SideC));
-    }
     private bool CalculateIsRightTriangle()
     {
         double[] sidesSquared = { SideA * SideA, SideB * SideB, SideC * SideC };
         Array.Sort(sidesSquared);
         return sidesSquared[2] == sidesSquared[0] + sidesSquared[1];
     }
-
-    public double CalculateArea() => _area.Value;
 }
