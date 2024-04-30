@@ -4,7 +4,7 @@ namespace Figures.Figures;
 
 public class Circle: IFigure
 {
-    public double Radius { get; private set; }
+    public readonly double Radius;
     public Circle(double radius)
     {
         if (radius <= 0)
@@ -13,7 +13,7 @@ public class Circle: IFigure
         Radius = radius;
     }
 
-    public double GetSquare()
+    public double CalculateArea()
     {
         return Math.PI * Math.Pow(Radius, 2);
     }

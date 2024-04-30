@@ -4,7 +4,8 @@ namespace Test.AdditionalFigures;
 
 public class Square : IFigure
 {
-    public double Side { get; private set; }
+    public readonly double Side;
+
     public Square(double side)
     {
         if (side <= 0)
@@ -13,7 +14,7 @@ public class Square : IFigure
         Side = side;
     }
 
-    public double GetSquare()
+    public double CalculateArea()
     {
         return Side * Side;
     }

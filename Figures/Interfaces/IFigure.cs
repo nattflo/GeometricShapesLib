@@ -8,6 +8,6 @@ namespace Figures.Interfaces
 {
     public interface IFigure
     {
-        double GetSquare();
+        double CalculateArea();
     }
 }
