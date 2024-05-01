@@ -14,7 +14,7 @@ public sealed class Triangle : IFigure
 
 
     //Конструктор с значением по-умолчанию для удобной работы, если не хочется создавать фабрику
-    public Triangle(double sideA, double sideB, double sideC, IAreaCalculator<Triangle>? calculator = null)
+    public Triangle(double sideA, double sideB, double sideC, IAreaCalculator<Triangle> calculator = null)
     {
         if (!IsValidTriangle(sideA, sideB, sideC))
             throw new ArgumentException("Invalid triangle sides");
@@ -40,13 +40,7 @@ public sealed class Triangle : IFigure
         return otherHashSet.SetEquals(thisHashSet);
     }
 
-    public override bool Equals(object? obj)
-    {
-        if (obj == null || obj is Triangle)
-            return false;
-
-        return Equals(obj as Triangle);
-    }
+    public override bool Equals(object? obj) => obj is Triangle other && Equals(other);
 
     //Нужен, чтобы использовать в Dictionary в качестве ключа
     public override int GetHashCode()
