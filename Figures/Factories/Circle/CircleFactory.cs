@@ -3,7 +3,7 @@ using Figures.Interfaces;
 
 namespace Figures.Factories;
 
-public class CircleFactory : ICircleFactory
+public sealed class CircleFactory : ICircleFactory
 {
     private readonly IAreaCalculator<Circle> _calculator;
     public CircleFactory(IAreaCalculator<Circle> calculator)

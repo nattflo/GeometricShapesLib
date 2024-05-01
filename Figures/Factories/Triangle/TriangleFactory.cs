@@ -4,7 +4,7 @@ using Figures.Interfaces;
 
 namespace Figures.Factories;
 
-public class TriangleFactory : ITriangleFactory
+public sealed class TriangleFactory : ITriangleFactory
 {
     private readonly TriangleAreaCalculator _areaCalculator;
 

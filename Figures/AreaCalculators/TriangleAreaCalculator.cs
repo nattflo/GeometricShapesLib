@@ -2,7 +2,7 @@
 
 namespace Figures.AreaCalculators;
 
-public class TriangleAreaCalculator : CachedAreaCalculatorBase<Triangle>
+public sealed class TriangleAreaCalculator : CachedAreaCalculatorBase<Triangle>
 {
     protected override double CalculateArea(Triangle entity)
     {
