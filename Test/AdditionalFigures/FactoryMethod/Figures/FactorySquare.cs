@@ -18,4 +18,15 @@ public class FactorySquare : IFigure
         _calculator = calculator;
     }
     public double CalculateArea() => _calculator.GetArea(this);
+
+    public bool Equals(FactorySquare? obj)
+    {
+        if(obj == null) return false;
+
+        return Side.Equals(obj.Side);
+    }
+
+    public override bool Equals(object? obj) => obj is FactorySquare square && Equals(square);
+
+    public override int GetHashCode() => Side.GetHashCode();
 }
