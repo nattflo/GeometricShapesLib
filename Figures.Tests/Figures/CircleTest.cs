@@ -12,7 +12,7 @@ namespace Figures.Tests
         [InlineData(0, "Radius cannot be equal to or less than zero")]
         public void Ctor_RadiusIsZeroOrLess_ThrowsArgumentException(double radius, string expectedExceptionMessage)
         { 
-            var exception = Assert.Throws<ArgumentException>(() => new Circle(_calculator,radius));
+            var exception = Assert.Throws<ArgumentException>(() => new Circle(radius, _calculator));
 
             Assert.Equal(expectedExceptionMessage, exception.Message);
         }
@@ -20,8 +20,8 @@ namespace Figures.Tests
         [Fact]
         public void Equals_CircleWithSameRadius_ReturnTrue()
         {
-            var circle1 = new Circle(_calculator, 1);
-            var circle2 = new Circle(_calculator, 1);
+            var circle1 = new Circle(1, _calculator);
+            var circle2 = new Circle(1, _calculator);
 
             Assert.True(circle1.Equals(circle2));
         }
@@ -29,8 +29,8 @@ namespace Figures.Tests
         [Fact]
         public void Equals_CircleWithDifferentRadius_ReturnFalse()
         {
-            var circle1 = new Circle(_calculator, 1);
-            var circle2 = new Circle(_calculator, 2);
+            var circle1 = new Circle(1, _calculator);
+            var circle2 = new Circle(2, _calculator);
 
             Assert.False(circle1.Equals(circle2));
         }

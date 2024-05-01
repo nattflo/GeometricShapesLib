@@ -8,7 +8,7 @@ public class TriangleAreaCalculatorTest
     public void GetArea_ReturnsExcpectedValue()
     {
         var areaCalculator = new TriangleAreaCalculator();
-        var circle = new Triangle(areaCalculator, 3, 4, 5);
+        var circle = new Triangle(3, 4, 5, areaCalculator);
 
         var area = areaCalculator.GetArea(circle);
 

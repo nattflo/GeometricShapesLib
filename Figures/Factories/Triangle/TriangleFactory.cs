@@ -13,5 +13,5 @@ public class TriangleFactory : ITriangleFactory
         _areaCalculator = areaCalculator;
     }
 
-    public Triangle Create(double a, double b, double c) => new(_areaCalculator, a, b, c);
+    public Triangle Create(double a, double b, double c) => new(a, b, c, _areaCalculator);
 }

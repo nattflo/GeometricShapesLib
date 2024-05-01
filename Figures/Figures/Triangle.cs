@@ -13,8 +13,8 @@ public sealed class Triangle : IFigure
     private readonly IAreaCalculator<Triangle> _calculator;
 
 
-    //Конструктор для фабрики
-    public Triangle(IAreaCalculator<Triangle> calculator, double sideA, double sideB, double sideC)
+    //Конструктор с значением по-умолчанию для удобной работы, если не хочется создавать фабрику
+    public Triangle(double sideA, double sideB, double sideC, IAreaCalculator<Triangle>? calculator = null)
     {
         if (!IsValidTriangle(sideA, sideB, sideC))
             throw new ArgumentException("Invalid triangle sides");
@@ -23,17 +23,13 @@ public sealed class Triangle : IFigure
         SideB = sideB;
         SideC = sideC;
 
-        _calculator = calculator;
+        _calculator = calculator?? new TriangleAreaCalculator();
 
         IsTriangleRight = CalculateIsRightTriangle();
     }
 
-    //Конструктор для простого использования класса
-    public Triangle(double sideA, double sideB, double sideC) : this(new TriangleAreaCalculator(), sideA, sideB, sideC) { }
-
     public double CalculateArea() => _calculator.GetArea(this);
 
-    //Нужен, чтобы убрать unbox при обращении к переопределённому методу Equals
     public bool Equals(Triangle? other)
     {
         if (other == null) return false;

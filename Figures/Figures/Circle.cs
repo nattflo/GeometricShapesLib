@@ -8,22 +8,18 @@ public class Circle: IFigure
     public readonly double Radius;
     private readonly IAreaCalculator<Circle> _calculator;
 
-    //Конструктор для фабрики
-    public Circle(IAreaCalculator<Circle> calculator, double radius)
+    //Конструктор с значением по-умолчанию для удобной работы, если не хочется создавать фабрику
+    public Circle(double radius, IAreaCalculator<Circle>? calculator = null)
     {
         if (radius <= 0)
             throw new ArgumentException("Radius cannot be equal to or less than zero");
 
-        _calculator = calculator;
+        _calculator = calculator ?? new CircleAreaCalculator();
         Radius = radius;
     }
 
-    //Конструктор для простого использования класса
-    public Circle(double radius) : this(new CircleAreaCalculator(), radius) { }
-
     public double CalculateArea() => _calculator.GetArea(this);
 
-    //Нужен, чтобы убрать unbox при обращении к переопределённому методу Equals
     public bool Equals(Circle? obj)
     {
         if(obj == null) return false;

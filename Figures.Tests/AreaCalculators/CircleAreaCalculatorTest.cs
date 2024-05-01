@@ -8,7 +8,7 @@ public class CircleAreaCalculatorTest
     public void GetArea_ReturnsExcpectedValue()
     {
         var areaCalculator = new CircleAreaCalculator();
-        var circle = new Circle(areaCalculator, 1);
+        var circle = new Circle(1, areaCalculator);
 
         var area = areaCalculator.GetArea(circle);
 

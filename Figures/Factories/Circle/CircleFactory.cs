@@ -11,5 +11,5 @@ public class CircleFactory : ICircleFactory
         _calculator = calculator;
     }
 
-    public Circle Create(double radius) => new(_calculator, radius);
+    public Circle Create(double radius) => new(radius, _calculator);
 }
