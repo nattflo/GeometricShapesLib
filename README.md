@@ -55,6 +55,17 @@ public class Square : IFigure
         _calculator = calculator;
     }
     public double CalculateArea() => _calculator.GetArea(this);
+    
+    public bool Equals(Square? obj)
+    {
+        if(obj == null) return false;
+
+        return Side.Equals(obj.Side);
+    }
+
+    public override bool Equals(object? obj) => obj is Square square && Equals(square);
+
+    public override int GetHashCode() => Side.GetHashCode();
 }
 ```
 - Калькуляции площади реализовать в классе, реализующем IAreaCalculator или использовать унаследоваться от CachedAreaCalculatorBase. Во втором случае будет нативное кэширование.
